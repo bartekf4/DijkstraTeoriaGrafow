@@ -2,10 +2,10 @@ import math
 from queue import PriorityQueue
 
 
-def printDistance(result, s):
+def printDistance(result, nodes, s):
     n = len(result)
     for i in range(0, n):
-        print(f"Distance from vertex {s} to vertex {i} equals {result[i]}")
+        print(f"Distance from vertex {s} to vertex {i} equals {result[i]} via {nodes[i]}")
 
 
 def dijkstra(G, s):
@@ -15,6 +15,7 @@ def dijkstra(G, s):
     parent = [-1] * n
 
     dist[s] = 0
+    nodes = [[] for i in range(n)]
     q = PriorityQueue()
     q.put((0, s))
 
@@ -26,10 +27,11 @@ def dijkstra(G, s):
                 continue
             if G[v[1]][i] != -1 and dist[i] > dist[v[1]] + G[v[1]][i]:
                 dist[i] = dist[v[1]] + G[v[1]][i]
+                nodes[i].append(v[1])
                 parent[i] = v[1]
                 q.put((dist[i], i))
 
-    printDistance(dist, s)
+    printDistance(dist, nodes, s)
 
 
 if __name__ == '__main__':
